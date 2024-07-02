@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "amap",
+        "citylimit",
+        "daisyui",
+        "geocodes",
+        "Innermap",
+        "tailwindcss"
+    ],
+
+    "css.customData": [".vscode/tailwindcss.json"],
+}

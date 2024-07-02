@@ -1,0 +1,41 @@
+body {
+    background-color: beige;
+    color: #555555;
+}
+.box1{
+    background-color: rgb(244, 241, 233);
+    border: 5px #f5c70b solid;
+
+    margin-top: 100px ;
+    position: relative;
+}
+button{
+    color: #00ffff;
+    background-color: #979393;
+}
+button:hover{
+    color: rgb(255, 255, 255);
+}
+button:active{
+    color: rgb(247, 220, 115);
+}
+.block {
+    float:left;
+    width:33.3%;
+    box-sizing: border-box;
+}
+
+#mainblock{
+    float: left;
+    width:  70%;
+    border: 1px solid #555555;
+    box-sizing: border-box;
+}
+#sidebar{
+    float: right;
+    width: 30%;
+    box-sizing: border-box;
+}
+.clearfix{
+    clear: both;
+}

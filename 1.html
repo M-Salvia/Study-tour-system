@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.bootcdn.net/ajax/libs/leaflet/1.6.0/leaflet.css" rel="stylesheet">
+        <script src="https://cdn.bootcdn.net/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+        <style>
+            #map{
+                position:absolute;
+                width:100vw;
+                height:100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='map'>
+        </div>
+        <script>
+            var map = L.map('map',
+            {
+            zoomSnap: 0.1, // 地图的有效缩放级别
+            maxZoom: 13,
+            // crs: L.CRS.EPSG4326,  // 高德不是这个坐标系   
+            zoomControl: true,
+            editable:true,
+            // wheelPxPerZoomLevel:	60  // 鼠标滚轮缩放 较小的值将使滚轮轮缩放更快
+        }).setView([29.592024,106.231126], 13); // 重庆璧山区经纬度
+            let baseLayer=L.tileLayer("http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",{
+                    attribution: '&copy; 高德地图',
+                    maxZoom: 13,
+                    minZoom: 3,
+                    subdomains: "1234",
+                    zoom: 3
+                });
+            map.addLayer(baseLayer);   
+            // map.on('layeradd',function() {
+            //   console.log(layeradd)
+              
+            // })
+            map.on('click',function(event) {
+              console.log(event) // 返回当前点击的经纬度，及当前容器的坐标
+              let {lat, lng} = event.latlng
+              // map.setZoomAround([lat, lng],3)
+              
+              // console.log(map.attributionControl._map._layers) // 获取当前图层的比例尺
+              // map.setZoom(6) // 指定到对应的缩放级别
+              // shapingba = [29.554000,106.468590]
+              // // panTo 平移到指定位置，flyTo平移到指定位置 并可设置缩放级别
+              // map.panTo(shapingba)
+              // map.flyTo(shapingba, 3)
+            
+            })
+ let arr1 = [
+      [107.577716172645609, 29.796720709302502],
+      [107.577592225094861, 29.796914526276193],
+      [107.577507323359043, 29.797142144209456],
+      [107.577454631178185, 29.797393608354824]
+    ]
+    console.log(arr1)
+    var polygon = L.polygon(arr1);
+    // fitBounds 把所有点位放在合适的位置
+    console.log(polygon.getBounds().getCenter()) // 获取中心点 {lat: 107.5775854019119, lng: 29.797057158828665}
+ 
+ 
+// 动态加载
+    function getMarkerIcon(item) {
+      let zoom = map.getZoom();//缩放等级
+      console.log(zoom)
+      let icon = null;
+      /*let value = item[this.airType];
+    let bgcolor = getPollLevelColor(this.airType, value, this.timeType);//污染物背景颜色
+    let txtcolor = getPollLevelTextColor(this.airType, value, this.timeType);//污染物字体颜色 */
+      let value, bgcolor, txtcolor;
+      let namelength = item.length;
+      if (value === -999 || value === 0) {
+        bgcolor = "#a1a3a6";
+        value = "-";
+      }
+ 
+      if (zoom < 6) {
+        icon = L.divIcon({
+          html: "<div class='smallCircleMarker' style='background-color: " + bgcolor + ";'></div>",
+          className: 'ss',
+          iconSize: [7, 15],
+          iconAnchor: [7, 7]
+        });
+      } else if (zoom >= 6 && zoom < 8)//6,7
+      {
+        icon = L.divIcon({
+          html: "<div style='width: " + namelength * 14 + "px;'><div class='rectangleMarker' style='background-color: " + bgcolor + ";color:" + txtcolor + ";margin: 0 auto'>" + item + "</div></div>",
+          className: 'ss',
+          iconSize: [12, 19],
+          iconAnchor: [12, 9]
+        });
+      } else if (zoom >= 8 && zoom < 10)//8,9
+      {
+        icon = L.divIcon({
+          html: "<div class='smallCircleMarker' style='background-color: " + bgcolor + ";'></div>",
+          className: 'ss',
+          iconSize: [7, 15],
+          iconAnchor: [7, 7]
+        });
+      } else if (zoom >= 10) {
+        icon = L.divIcon({
+          html: "<div style='width: " + namelength * 14 + "px;'><div class='rectangleMarker' style='background-color: " + bgcolor + ";color:" + txtcolor + ";margin: 0 auto'>" + item + "</div></div>",
+          className: 'ss',
+          iconSize: [12, 19],
+          iconAnchor: [12, 9]
+        });
+      }
+      return icon;
+    }
+    L.marker([29.592024, 106.231126], { icon: getMarkerIcon(name) }).addTo(map);
+    map.on('zoomstart', function () {
+      var zoomLevel = map.getZoom();
+      console.log(zoomLevel)
+ 
+      /*  var tooltip = $('.leaflet-tooltip');
+ 
+       switch (zoomLevel) {
+         case -2:
+           tooltip.css('font-size', 7);
+           break;
+         case -1:
+           tooltip.css('font-size', 10);
+           break;
+         case 0:
+           tooltip.css('font-size', 12);
+           break;
+         case 1:
+           tooltip.css('font-size', 14);
+           break;
+         case 2:
+           tooltip.css('font-size', 16);
+           break;
+         case 3:
+           tooltip.css('font-size', 18);
+           break;
+         default:
+           tooltip.css('font-size', 14);
+       } */
+    })
+        </script>
+    </body>
+</html>
